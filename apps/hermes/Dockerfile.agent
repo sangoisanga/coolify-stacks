@@ -4,7 +4,8 @@
 # This derived image temporarily re-adds write permission to install
 # firecrawl-py into the existing venv, then locks it back down.
 
-FROM nousresearch/hermes-agent:latest
+# Pinned SHA — the base image will only update when we deliberately change this.
+FROM nousresearch/hermes-agent@sha256:7f71a4183817c3ac803f29d0b2aedc9ebbab4ec6be9c1d02e1cbda6f5d7ea52b
 
 LABEL maintainer="NousResearch"
 LABEL description="Hermes Agent with firecrawl-py pre-installed for gateway tool use"
@@ -16,7 +17,9 @@ USER root
 # Only unlock the venv — the rest of /opt/hermes is unchanged from the base image.
 RUN chmod -R u+w /opt/hermes/.venv
 
-RUN /usr/local/bin/uv pip install --python /opt/hermes/.venv/bin/python firecrawl-py>=4.30 --no-cache-dir
+# Pin to the exact version the agent's source expects:
+#   hermes_cli/tools/lazy_deps.py → "search.firecrawl": ("firecrawl-py==4.17.0",)
+RUN /usr/local/bin/uv pip install --python /opt/hermes/.venv/bin/python firecrawl-py==4.17.0 --no-cache-dir
 
 # Lock the venv back down. The rest of /opt/hermes was never touched.
 RUN chmod -R a-w /opt/hermes/.venv
