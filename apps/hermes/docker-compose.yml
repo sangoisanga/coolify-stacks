@@ -7,7 +7,7 @@ services:
     command: "gateway run"
     volumes:
       - "hermes-home:/home/hermes/.hermes"
-      - "hermes-agent-src-671:/opt/hermes"
+      - "hermes-agent-src-671-a:/opt/hermes"
     environment:
       - HERMES_HOME=/home/hermes/.hermes
       - HERMES_UID=1000
@@ -33,6 +33,6 @@ services:
       - "HERMES_WEBUI_PASSWORD=${SERVICE_PASSWORD_HERMESWEBUI}"
     volumes:
       - "hermes-home:/home/hermeswebui/.hermes"
-      - "hermes-agent-src-671:/home/hermeswebui/.hermes/hermes-agent:ro"
+      - "hermes-agent-src-671-a:/home/hermeswebui/.hermes/hermes-agent:ro"
       - "hermes-workspace:/workspace"
     restart: unless-stopped
