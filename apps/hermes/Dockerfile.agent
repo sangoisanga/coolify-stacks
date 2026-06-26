@@ -13,9 +13,10 @@ USER root
 
 # The stock image locks /opt/hermes to a-w (immutable for runtime safety).
 # Re-add owner-write so we can install into the venv during the build.
-RUN chmod -R u+w /opt/hermes
+# Only unlock the venv — the rest of /opt/hermes is unchanged from the base image.
+RUN chmod -R u+w /opt/hermes/.venv
 
 RUN /usr/local/bin/uv pip install --python /opt/hermes/.venv/bin/python firecrawl-py>=4.30 --no-cache-dir
 
-# Lock /opt/hermes back down so the runtime user cannot modify the image.
-RUN chmod -R a-w /opt/hermes
+# Lock the venv back down. The rest of /opt/hermes was never touched.
+RUN chmod -R a-w /opt/hermes/.venv
