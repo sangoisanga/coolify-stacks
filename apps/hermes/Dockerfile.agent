@@ -1,0 +1,29 @@
+# Coolify variant: hermes-agent with firecrawl-py baked into the venv
+#
+# The stock agent image keeps /opt/hermes as an immutable root-owned tree.
+# This derived image temporarily re-adds write permission to install
+# firecrawl-py into the existing venv, then locks it back down.
+#
+# Build:  docker build -t hermes-agent-firecrawl -f Dockerfile.agent .
+# Deploy: docker compose -f docker-compose.coolify.yml up -d
+
+FROM nousresearch/hermes-agent:latest
+
+LABEL maintainer="NousResearch"
+LABEL description="Hermes Agent with firecrawl-py pre-installed for gateway tool use"
+
+USER root
+
+# The stock image locks /opt/hermes to a-w (immutable for runtime safety).
+# Re-add owner-write so we can install into the venv during the build.
+RUN chmod -R u+w /opt/hermes
+
+# Install firecrawl-py into the agent's existing venv at /opt/hermes/.venv/.
+# The gateway's Python process uses this venv, so `import firecrawl` and
+# the `firecrawl` CLI are available without runtime PyPI access.
+RUN /opt/hermes/.venv/bin/pip install firecrawl-py>=4.30 --no-cache-dir
+
+# Lock /opt/hermes back down so the runtime user cannot modify the image.
+RUN chmod -R a-w /opt/hermes
+
+USER hermes
