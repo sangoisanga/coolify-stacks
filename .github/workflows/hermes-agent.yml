@@ -7,9 +7,6 @@ on:
       - "apps/hermes/Dockerfile.agent"
       - "apps/hermes/docker-compose.yml"
       - ".github/workflows/hermes-agent.yml"
-  schedule:
-    # Weekly rebuild to pick up upstream `nousresearch/hermes-agent:latest` changes.
-    - cron: "0 6 * * 1"
   workflow_dispatch:
 
 env:
