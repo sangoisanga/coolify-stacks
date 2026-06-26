@@ -21,7 +21,7 @@ RUN chmod -R u+w /opt/hermes
 # Install firecrawl-py into the agent's existing venv at /opt/hermes/.venv/.
 # The gateway's Python process uses this venv, so `import firecrawl` and
 # the `firecrawl` CLI are available without runtime PyPI access.
-RUN /opt/hermes/.venv/bin/pip install firecrawl-py>=4.30 --no-cache-dir
+RUN /usr/local/bin/uv pip install --python /opt/hermes/.venv/bin/python firecrawl-py>=4.30 --no-cache-dir
 
 # Lock /opt/hermes back down so the runtime user cannot modify the image.
 RUN chmod -R a-w /opt/hermes
