@@ -2,12 +2,12 @@ version: "3.8"
 
 services:
   hermes-agent:
-    image: ghcr.io/sangoisanga/coolify-stacks/hermes-agent:5d5bb37
+    image: ghcr.io/sangoisanga/coolify-stacks/hermes-agent@sha256:826992ddb1d47b94a9300d3fc4871c336a7e6b45df03036f3558d269054c94d2
     container_name: hermes-agent
     command: "gateway run"
     volumes:
       - "hermes-home:/home/hermes/.hermes"
-      - "hermes-agent-src-671-a:/opt/hermes"
+      - "hermes-agent-src:/opt/hermes"
     environment:
       - HERMES_HOME=/home/hermes/.hermes
       - HERMES_UID=1000
@@ -16,23 +16,6 @@ services:
       - "FIRECRAWL_API_KEY=${FIRECRAWL_API_KEY}"
     restart: unless-stopped
 
-  hermes-webui:
-    image: "ghcr.io/nesquena/hermes-webui:0.51.671"
-    container_name: hermes-webui
-    depends_on:
-      - hermes-agent
-    environment:
-      - SERVICE_URL_HERMESWEBUI_8787
-      - HERMES_WEBUI_HOST=0.0.0.0
-      - HERMES_WEBUI_PORT=8787
-      - HERMES_WEBUI_STATE_DIR=/home/hermeswebui/.hermes/webui
-      - "HERMES_API_URL=http://hermes-agent:8642"
-      - "HERMES_WEBUI_GATEWAY_BASE_URL=http://hermes-agent:8642"
-      - WANTED_UID=1000
-      - WANTED_GID=1000
-      - "HERMES_WEBUI_PASSWORD=${SERVICE_PASSWORD_HERMESWEBUI}"
-    volumes:
-      - "hermes-home:/home/hermeswebui/.hermes"
-      - "hermes-agent-src-671-a:/home/hermeswebui/.hermes/hermes-agent:ro"
-      - "hermes-workspace:/workspace"
-    restart: unless-stopped
+volumes:
+  hermes-home:
+  hermes-agent-src:
