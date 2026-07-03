@@ -16,9 +16,15 @@ USER root
 # Only unlock the venv — the rest of /opt/hermes is unchanged from the base image.
 RUN chmod -R u+w /opt/hermes/.venv
 
-# Pin to the exact version the agent's source expects:
+# Pin to the exact versions the agent's source expects:
 #   hermes_cli/tools/lazy_deps.py → "search.firecrawl": ("firecrawl-py==4.17.0",)
-RUN /usr/local/bin/uv pip install --python /opt/hermes/.venv/bin/python firecrawl-py==4.17.0 --no-cache-dir
+RUN /usr/local/bin/uv pip install --python /opt/hermes/.venv/bin/python \
+    firecrawl-py==4.17.0 \
+    google-api-python-client==2.194.0 \
+    google-auth-httplib2==0.3.1 \
+    google-auth-oauthlib==1.3.1 \
+    google-auth==2.55.1 \
+    --no-cache-dir
 
 # Lock the venv back down. The rest of /opt/hermes was never touched.
 RUN chmod -R a-w /opt/hermes/.venv
