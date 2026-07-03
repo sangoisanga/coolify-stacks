@@ -2,12 +2,12 @@ version: "3.8"
 
 services:
   hermes-agent:
-    image: ghcr.io/sangoisanga/coolify-stacks/hermes-agent:fec6a6a
+    image: ghcr.io/sangoisanga/coolify-stacks/hermes-agent:latest
     container_name: hermes-agent
     command: "gateway run"
     volumes:
       - "hermes-home:/home/hermes/.hermes"
-      - "hermes-agent-src:/opt/hermes"
+      - "hermes-agent-src-1:/opt/hermes"
     environment:
       - HERMES_HOME=/home/hermes/.hermes
       - HERMES_UID=1000
@@ -18,4 +18,4 @@ services:
 
 volumes:
   hermes-home:
-  hermes-agent-src:
+  hermes-agent-src-1:
