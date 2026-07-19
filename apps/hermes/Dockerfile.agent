@@ -5,7 +5,7 @@
 # firecrawl-py into the existing venv, then locks it back down.
 
 # Pinned SHA — the base image will only update when we deliberately change this.
-FROM nousresearch/hermes-agent:v2026.7.1
+FROM nousresearch/hermes-agent:v2026.7.7.2
 LABEL maintainer="Sang"
 LABEL description="Hermes Agent with firecrawl-py pre-installed for gateway tool use"
 
