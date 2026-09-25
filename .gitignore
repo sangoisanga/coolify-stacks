@@ -1,4 +1,4 @@
 .idea
 .jj
-
-
+apps/*/.env
+apps/*/env.local
