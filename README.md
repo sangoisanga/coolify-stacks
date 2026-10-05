@@ -14,7 +14,8 @@ apps/
 
 ## Ingress
 
-Cloudflare Tunnel handles `*.delulo.uk`. The tunnel loops back to Traefik on the Coolify host. Traefik routes to the app by Host header.
+Cloudflare Tunnel handles `*.delulo.uk`. The tunnel loops back to Traefik on the Coolify host. Traefik routes to the app
+by Host header.
 
 Reference: <https://coolify.io/docs/integrations/networking/cloudflare/tunnels>
 
@@ -30,7 +31,8 @@ Per app:
 
 ## Apps
 
-| App | Notes |
-|---|---|
-| `apps/dawarich` | [Dawarich](https://dawarich.app/). Rails app. Needs `assume_ssl` initializer shipped via `configs:`. |
-| `apps/hermes` | Hermes agent gateway. |
+| App             | Notes                                                                                                 |
+|-----------------|-------------------------------------------------------------------------------------------------------|
+| `apps/dawarich` | [Dawarich](https://dawarich.app/). Rails app. Needs `assume_ssl` initializer shipped via `configs:`.  |
+| `apps/hermes`   | Hermes agent gateway.                                                                                 |
+| `apps/aerofoil` | AeroFoil Switch shop (CyberFoil client). Library bind-mounted from /data/aerofoil/library on the VPS. |
