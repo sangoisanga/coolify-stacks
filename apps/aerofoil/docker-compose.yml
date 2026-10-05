@@ -1,0 +1,28 @@
+services:
+  aerofoil:
+    image: luketanti/aerofoil:latest
+    environment:
+      PUID: ${PUID:-1000}
+      PGID: ${PGID:-1000}
+      USER_ADMIN_NAME: ${AEROFOIL_ADMIN_NAME}
+      USER_ADMIN_PASSWORD: ${AEROFOIL_ADMIN_PASSWORD}
+      AEROFOIL_SECRET_KEY: ${AEROFOIL_SECRET_KEY}
+      AEROFOIL_TRUST_PROXY_HEADERS: "true"
+      AEROFOIL_TRUSTED_PROXIES: ${AEROFOIL_TRUSTED_PROXIES:-172.16.0.0/12}
+    volumes:
+      - /data/aerofoil/library:/games
+      - aerofoil_config:/app/config
+      - aerofoil_data:/app/data
+    expose:
+      - "8465"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8465')" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  aerofoil_config:
+  aerofoil_data:
